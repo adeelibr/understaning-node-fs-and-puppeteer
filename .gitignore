@@ -1,0 +1,10 @@
+# node modules
+node_modules
+
+# build files
+build.html
+build.pdf
+
+# lock files
+yarn.lock
+package-lock.json
