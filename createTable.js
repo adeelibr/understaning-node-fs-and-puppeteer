@@ -4,6 +4,22 @@ const data = require('./data.json');
 // Build paths
 const { buildPathHtml } = require('./buildPaths');
 
+/**
+ * Take an object which has the following model
+ * @param {Object} item 
+ * @model
+ * {
+ *   "invoiceId": `Number`,
+ *   "createdDate": `String`,
+ *   "dueDate": `String`,
+ *   "address": `String`,
+ *   "companyName": `String`,
+ *   "invoiceName": `String`,
+ *   "price": `Number`,
+ * }
+ * 
+ * @returns {String}
+ */
 const createRow = (item) => `
   <tr>
     <td>${item.invoiceId}</td>
@@ -16,8 +32,13 @@ const createRow = (item) => `
   </tr>
 `;
 
+/**
+ * @description Generates an `html` table with all the table rows
+ * @param {String} rows
+ * @returns {String}
+ */
 const createTable = (rows) => `
-  <table id="history_table">
+  <table>
     <tr>
         <th>Invoice Id</td>
         <th>Invoice Name</td>
@@ -31,6 +52,11 @@ const createTable = (rows) => `
   </table>
 `;
 
+/**
+ * @description Generate an `html` page with a populated table
+ * @param {String} table
+ * @returns {String}
+ */
 const createHtml = (table) => `
   <html>
     <head>
@@ -62,9 +88,15 @@ const createHtml = (table) => `
   </html>
 `;
 
+/**
+ * @description this method takes in a path as a string & returns true/false
+ * as to if the specified file path exists in the system or not.
+ * @param {String} filePath 
+ * @returns {Boolean}
+ */
 const doesFileExist = (filePath) => {
 	try {
-		fs.statSync(filePath);
+		fs.statSync(filePath); // get information of the specified file path.
 		return true;
 	} catch (error) {
 		return false;
@@ -72,13 +104,19 @@ const doesFileExist = (filePath) => {
 };
 
 try {
+	/* Check if the file for `html` build exists in system or not */
 	if (doesFileExist(buildPathHtml)) {
 		console.log('Deleting old build file');
+		/* If the file exists delete the file from system */
 		fs.unlinkSync(buildPathHtml);
 	}
+	/* generate rows */
 	const rows = data.map(createRow).join('');
+	/* generate table */
 	const table = createTable(rows);
+	/* generate html */
 	const html = createHtml(table);
+	/* write the generated html to file */
 	fs.writeFileSync(buildPathHtml, html);
 	console.log('Succesfully created an HTML table');
 } catch (error) {
