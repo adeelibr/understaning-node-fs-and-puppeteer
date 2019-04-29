@@ -12,5 +12,4 @@ const buildPaths = {
 	buildPathPdf: path.resolve('./build.pdf')
 };
 
-// module.exports = buildPaths;
-export default buildPaths;
+module.exports = buildPaths;
