@@ -5,16 +5,11 @@ const { buildPathHtml, buildPathPdf } = require('./buildPaths');
 
 const printPdf = async () => {
 	console.log('Starting: Generating PDF Process, Kindly wait ..');
-	/** Will launch a headleass browser */
+	/** Launch a headleass browser */
 	const browser = await puppeteer.launch();
-	/** 
-   * 1- Will create a new Page object. The Page is created 
-   * in a default browser context. 
-   * */
+	/* 1- Ccreate a newPage() object. It is created in default browser context. */
 	const page = await browser.newPage();
-	/** 
-   * 2- Will open our generated `.html` file in the new Page instance.
-   * */
+	/* 2- Will open our generated `.html` file in the new Page instance. */
 	await page.goto(buildPathHtml, { waitUntil: 'networkidle0' });
 	/* 3- Take a snapshot of the PDF */
 	const pdf = await page.pdf({
@@ -26,7 +21,7 @@ const printPdf = async () => {
 			left: '20px'
 		}
 	});
-	// 4- Cleanup: close browser.
+	/* 4- Cleanup: close browser. */
 	await browser.close();
 	console.log('Ending: Generating PDF Process');
 	return pdf;
